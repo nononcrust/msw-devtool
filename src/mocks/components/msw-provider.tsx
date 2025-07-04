@@ -2,7 +2,7 @@
 
 import { Suspense } from '@suspensive/react';
 import { type SetupWorker, setupWorker } from 'msw/browser';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod/v4';
 import { createContextFactory } from '@/lib/context';
 import { mockHandlers } from '../handlers';
@@ -97,7 +97,12 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
     []
   );
 
+  const isMountedRef = useRef(false);
   useEffect(() => {
+    if (isMountedRef.current) {
+      return;
+    }
+
     const startWorker = async () => {
       const enabledHttpHandlers = getEnabledHttpHandlers(
         handlerConfig.enabledHandlers
@@ -113,6 +118,8 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     startWorker();
+
+    isMountedRef.current = true;
   }, [getEnabledHttpHandlers, handlerConfig.enabledHandlers]);
 
   const updateEnabledHandlers = (enabledHandlers: EnabledHandler[]) => {
@@ -131,8 +138,7 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
 
     setHandlerConfig(newConfig);
 
-    currentWorker.resetHandlers();
-    currentWorker.use(...enabledWorkerHandlers);
+    currentWorker.resetHandlers(...enabledWorkerHandlers);
   };
 
   const toggleHandlerEnabled = (handler: MockHandler) => {
