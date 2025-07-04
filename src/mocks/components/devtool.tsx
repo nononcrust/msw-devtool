@@ -13,11 +13,12 @@ export const MSWDevtool = () => {
       <Sheet.Trigger
         render={
           <IconButton
-            variant="outlined"
-            className="fixed bottom-4 right-4"
+            variant="primary"
+            size="small"
+            className="fixed bottom-4 right-4 rounded-full"
             aria-label="열기"
           >
-            <SettingsIcon className="size-5" />
+            <SettingsIcon className="size-4.5" />
           </IconButton>
         }
       />
