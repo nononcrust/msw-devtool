@@ -1,11 +1,11 @@
-import { IconButton } from "@/components/icon-button";
-import { Sheet } from "@/components/sheet";
-import { ChevronDownIcon, SearchIcon, SettingsIcon } from "lucide-react";
-import { mockHandlers } from "../handlers";
-import { matchHandler, MockHandler, MockPreset } from "../utils";
-import { Switch } from "@/components/switch";
-import { useMSWProviderContext } from "./msw-provider";
-import { Tag } from "@/components/tag";
+import { ChevronDownIcon, SettingsIcon } from 'lucide-react';
+import { IconButton } from '@/components/icon-button';
+import { Sheet } from '@/components/sheet';
+import { Switch } from '@/components/switch';
+import { Tag } from '@/components/tag';
+import { mockHandlers } from '../handlers';
+import { type MockHandler, matchHandler } from '../utils';
+import { useMSWProviderContext } from './msw-provider';
 
 export const MSWDevtool = () => {
   return (
@@ -13,10 +13,10 @@ export const MSWDevtool = () => {
       <Sheet.Trigger
         render={
           <IconButton
-            variant="primary"
-            size="small"
-            className="fixed bottom-4 right-4 rounded-full"
             aria-label="열기"
+            className="fixed right-4 bottom-4 rounded-full"
+            size="small"
+            variant="primary"
           >
             <SettingsIcon className="size-4.5" />
           </IconButton>
@@ -30,15 +30,15 @@ export const MSWDevtool = () => {
           </Sheet.Description>
         </Sheet.Header>
         <Sheet.Body>
-          <div className="flex flex-col gap-6 mt-2">
+          <div className="mt-2 flex flex-col gap-6">
             {mockHandlers.map((handlerGroup, index) => (
-              <div key={index} className="flex flex-col">
-                <span className="text-subtle text-xs font-medium mb-2">
+              <div className="flex flex-col" key={index}>
+                <span className="mb-2 font-medium text-subtle text-xs">
                   {handlerGroup.baseUrl.slice(1).toUpperCase()}
                 </span>
                 <ul className="flex flex-col gap-3">
                   {handlerGroup.handlers.map((handler, index) => (
-                    <ApiEndpoint key={index} handler={handler} />
+                    <ApiEndpoint handler={handler} key={index} />
                   ))}
                 </ul>
               </div>
@@ -62,7 +62,7 @@ const ApiEndpoint = ({ handler }: ApiEndpointProps) => {
     matchHandler(enabledHander, handler)
   );
 
-  const preset =
+  const currentPreset =
     handlerConfig.enabledHandlers.find((h) => matchHandler(h, handler))
       ?.preset ?? handler.presets[0].label;
 
@@ -82,22 +82,22 @@ const ApiEndpoint = ({ handler }: ApiEndpointProps) => {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex items-center gap-2 flex-1">
+      <div className="flex flex-1 items-center gap-2">
         <Tag>{handler.method}</Tag>
         <div className="flex gap-0.5">
-          {handler.path.split("/").map((part, index) => (
+          {handler.path.split('/').map((part, index) => (
             <div
+              className="flex items-center gap-0.5 font-medium text-sm"
               key={index}
-              className="font-medium text-sm flex items-center gap-0.5"
             >
-              {part.startsWith(":") ? (
-                <span className="bg-background-100 px-1.5 h-5 flex justify-center items-center rounded-[0.375rem]">
+              {part.startsWith(':') ? (
+                <span className="flex h-5 items-center justify-center rounded-[0.375rem] bg-background-100 px-1.5">
                   {part.slice(1)}
                 </span>
               ) : (
                 <span className="text-main">{part}</span>
               )}
-              {index < handler.path.split("/").length - 1 && (
+              {index < handler.path.split('/').length - 1 && (
                 <span className="text-subtle">/</span>
               )}
             </div>
@@ -107,9 +107,9 @@ const ApiEndpoint = ({ handler }: ApiEndpointProps) => {
       {isEnabled && (
         <div className="relative">
           <select
-            className="flex justify-center items-center h-6 bg-background-100 text-xs font-medium px-2 rounded-[0.375rem] appearance-none outline-hidden focus-visible:focus-ring cursor-pointer hover:bg-background-200 transition-colors pr-6.5 max-w-[6rem] truncate"
-            value={preset}
+            className="focus-visible:focus-ring flex h-6 max-w-[6rem] cursor-pointer appearance-none items-center justify-center truncate rounded-[0.375rem] bg-background-100 px-2 pr-6.5 font-medium text-xs outline-hidden transition-colors hover:bg-background-200"
             onChange={onPresetChange}
+            value={currentPreset}
           >
             {handler.presets.map((preset) => (
               <option key={preset.label} value={preset.label}>
@@ -117,7 +117,7 @@ const ApiEndpoint = ({ handler }: ApiEndpointProps) => {
               </option>
             ))}
           </select>
-          <ChevronDownIcon className="absolute top-1/2 -translate-y-1/2 right-2 size-3.5 pointer-events-none" />
+          <ChevronDownIcon className="-translate-y-1/2 pointer-events-none absolute top-1/2 right-2 size-3.5" />
         </div>
       )}
       <Switch

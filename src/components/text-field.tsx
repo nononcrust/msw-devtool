@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import React, { useId, useState } from "react";
-import { createContextFactory } from "@/lib/context";
-import { cn } from "@/lib/utils";
+import type React from 'react';
+import { useId, useState } from 'react';
+import { createContextFactory } from '@/lib/context';
+import { cn } from '@/lib/utils';
 
 type TextFieldProps = Omit<
-  React.ComponentPropsWithRef<"div">,
-  "onChange" | "value"
+  React.ComponentPropsWithRef<'div'>,
+  'onChange' | 'value'
 > & {
   value?: string;
   onChange?: (value: string) => void;
@@ -33,7 +34,7 @@ const TextField = ({
   errorMessage,
   ...props
 }: TextFieldProps) => {
-  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
+  const [internalValue, setInternalValue] = useState(defaultValue ?? '');
 
   const value = externalValue ?? internalValue;
   const onChange = externalOnChange ?? setInternalValue;
@@ -65,15 +66,15 @@ const TextField = ({
 
   return (
     <TextFieldContext value={contextValue}>
-      <div className={cn("flex w-full flex-col", className)} {...props}>
+      <div className={cn('flex w-full flex-col', className)} {...props}>
         {label}
         <div
           className={cn(
-            "border-border bg-background shadow-xs flex min-h-10 rounded-md border",
-            "focus-within:focus-input-ring",
-            "has-data-invalid:focus-within:focus-input-ring-error has-data-invalid:border-error",
-            "has-data-disabled:bg-background-100 has-data-disabled:pointer-events-none has-data-disabled:opacity-50",
-            "has-data-readonly:bg-background-100"
+            'flex min-h-10 rounded-md border border-border bg-background shadow-xs',
+            'focus-within:focus-input-ring',
+            'has-data-invalid:focus-within:focus-input-ring-error has-data-invalid:border-error',
+            'has-data-disabled:pointer-events-none has-data-disabled:bg-background-100 has-data-disabled:opacity-50',
+            'has-data-readonly:bg-background-100'
           )}
         >
           {children}
@@ -87,7 +88,7 @@ const TextField = ({
             {maxGraphemeCount && (
               <span
                 className={cn(
-                  "text-subtle text-[0.8125rem] font-medium",
+                  'font-medium text-[0.8125rem] text-subtle',
                   className
                 )}
                 {...props}
@@ -102,7 +103,7 @@ const TextField = ({
   );
 };
 
-type TextFieldInputProps = React.ComponentPropsWithRef<"input">;
+type TextFieldInputProps = React.ComponentPropsWithRef<'input'>;
 
 const TextFieldInput = ({ className, ...props }: TextFieldInputProps) => {
   const { register } = useRegisterTextField();
@@ -110,7 +111,7 @@ const TextFieldInput = ({ className, ...props }: TextFieldInputProps) => {
   return (
     <input
       className={cn(
-        "outline-hidden text-main placeholder-placeholder w-full px-3 text-sm",
+        'w-full px-3 text-main text-sm placeholder-placeholder outline-hidden',
         className
       )}
       data-disabled={props.disabled}
@@ -121,7 +122,7 @@ const TextFieldInput = ({ className, ...props }: TextFieldInputProps) => {
   );
 };
 
-type TextFieldTextareaProps = React.ComponentPropsWithRef<"textarea">;
+type TextFieldTextareaProps = React.ComponentPropsWithRef<'textarea'>;
 
 const TextFieldTextarea = ({ className, ...props }: TextFieldTextareaProps) => {
   const { register } = useRegisterTextField();
@@ -129,9 +130,9 @@ const TextFieldTextarea = ({ className, ...props }: TextFieldTextareaProps) => {
   return (
     <textarea
       className={cn(
-        "outline-hidden text-main placeholder-placeholder w-full px-3 py-2 text-sm",
-        "min-h-[7.5rem]",
-        "field-sizing-content",
+        'w-full px-3 py-2 text-main text-sm placeholder-placeholder outline-hidden',
+        'min-h-[7.5rem]',
+        'field-sizing-content',
         className
       )}
       data-disabled={props.disabled}
@@ -142,7 +143,7 @@ const TextFieldTextarea = ({ className, ...props }: TextFieldTextareaProps) => {
   );
 };
 
-type TextFieldAdornmentProps = React.ComponentPropsWithRef<"div">;
+type TextFieldAdornmentProps = React.ComponentPropsWithRef<'div'>;
 
 const TextFieldPrefix = ({
   className,
@@ -151,7 +152,7 @@ const TextFieldPrefix = ({
 }: TextFieldAdornmentProps) => {
   return (
     <div
-      className={cn("flex items-center justify-center pl-3", className)}
+      className={cn('flex items-center justify-center pl-3', className)}
       {...props}
     >
       {children}
@@ -166,7 +167,7 @@ const TextFieldSuffix = ({
 }: TextFieldAdornmentProps) => {
   return (
     <div
-      className={cn("flex items-center justify-center pr-3", className)}
+      className={cn('flex items-center justify-center pr-3', className)}
       {...props}
     >
       {children}
@@ -178,22 +179,22 @@ const TextFieldLabel = ({
   className,
   children,
   ...props
-}: React.ComponentPropsWithRef<"label">) => {
+}: React.ComponentPropsWithRef<'label'>) => {
   const { required, textFieldId } = useTextFieldContext();
 
   return (
     <label
+      className={cn('mb-2 flex items-center', className)}
       htmlFor={textFieldId}
-      className={cn("mb-2 flex items-center", className)}
       {...props}
     >
       {children}
-      {required && <span className="text-error ml-1">*</span>}
+      {required && <span className="ml-1 text-error">*</span>}
     </label>
   );
 };
 
-type TextFieldDescriptionProps = React.ComponentPropsWithRef<"p">;
+type TextFieldDescriptionProps = React.ComponentPropsWithRef<'p'>;
 
 const TextFieldDescription = ({
   className,
@@ -214,12 +215,12 @@ const TextFieldDescription = ({
 
   return (
     <p
-      id={descriptionId}
-      ref={refCallback}
       className={cn(
-        "text-subtle flex-1 text-[0.8125rem] font-medium",
+        'flex-1 font-medium text-[0.8125rem] text-subtle',
         className
       )}
+      id={descriptionId}
+      ref={refCallback}
       {...props}
     >
       {children}
@@ -227,7 +228,7 @@ const TextFieldDescription = ({
   );
 };
 
-type TextFieldErrorMessageProps = React.ComponentPropsWithRef<"p">;
+type TextFieldErrorMessageProps = React.ComponentPropsWithRef<'p'>;
 
 const TextFieldErrorMessage = ({
   className,
@@ -248,12 +249,12 @@ const TextFieldErrorMessage = ({
 
   return (
     <p
-      id={errorMessageId}
-      ref={refCallback}
       className={cn(
-        "text-error mt-1 flex-1 text-[0.8125rem] font-medium",
+        'mt-1 flex-1 font-medium text-[0.8125rem] text-error',
         className
       )}
+      id={errorMessageId}
+      ref={refCallback}
       {...props}
     >
       {children}
@@ -278,7 +279,7 @@ type TextFieldContextValue = {
 };
 
 const [TextFieldContext, useTextFieldContext] =
-  createContextFactory<TextFieldContextValue>("");
+  createContextFactory<TextFieldContextValue>('');
 
 const useRegisterTextField = () => {
   const {
@@ -308,9 +309,9 @@ const useRegisterTextField = () => {
     id: textFieldId,
     value,
     onChange: onFieldChange,
-    ["aria-invalid"]: error || undefined,
-    ["data-invalid"]: error || undefined,
-    ["aria-describedby"]: cn(
+    'aria-invalid': error || undefined,
+    'data-invalid': error || undefined,
+    'aria-describedby': cn(
       descriptionElement && descriptionId,
       errorMessageElement && errorMessageId
     ),

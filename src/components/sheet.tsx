@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { Dialog as SheetBase } from "@base-ui-components/react/dialog";
-import { XIcon } from "lucide-react";
-import { createContextFactory } from "@/lib/context";
-import { cn } from "@/lib/utils";
-import { IconButton } from "@/components/icon-button";
+import { Dialog as SheetBase } from '@base-ui-components/react/dialog';
+import { XIcon } from 'lucide-react';
+import { IconButton } from '@/components/icon-button';
+import { createContextFactory } from '@/lib/context';
+import { cn } from '@/lib/utils';
 
 type SheetProps = SheetBase.Root.Props;
 
@@ -22,8 +22,8 @@ const SheetBackdrop = ({
   return (
     <SheetBase.Backdrop
       className={cn(
-        "fixed inset-0 z-50 bg-black/50 backdrop-blur-sm",
-        "data-ending-style:opacity-0 data-starting-style:opacity-0 duration-150",
+        'fixed inset-0 z-50 bg-black/50 backdrop-blur-sm',
+        'duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0',
         className
       )}
       data-testid="overlay"
@@ -34,24 +34,24 @@ const SheetBackdrop = ({
   );
 };
 
-type Side = "top" | "bottom" | "left" | "right";
+type Side = 'top' | 'bottom' | 'left' | 'right';
 
 const styleBySide: Record<Side, string> = {
   top: cn(
-    "top-4 left-4 right-4",
-    "data-starting-style:translate-y-[-4rem] data-ending-style:translate-y-[-4rem]"
+    'top-4 right-4 left-4',
+    'data-ending-style:translate-y-[-4rem] data-starting-style:translate-y-[-4rem]'
   ),
   bottom: cn(
-    "bottom-4 left-4 right-4",
-    "data-starting-style:translate-y-[4rem] data-ending-style:translate-y-[4rem]"
+    'right-4 bottom-4 left-4',
+    'data-ending-style:translate-y-[4rem] data-starting-style:translate-y-[4rem]'
   ),
   left: cn(
-    "left-4 top-4 bottom-4",
-    "data-starting-style:translate-x-[-4rem] data-ending-style:translate-x-[-4rem]"
+    'top-4 bottom-4 left-4',
+    'data-ending-style:translate-x-[-4rem] data-starting-style:translate-x-[-4rem]'
   ),
   right: cn(
-    "right-4 top-4 bottom-4",
-    "data-starting-style:translate-x-[4rem] data-ending-style:translate-x-[4rem]"
+    'top-4 right-4 bottom-4',
+    'data-ending-style:translate-x-[4rem] data-starting-style:translate-x-[4rem]'
   ),
 };
 
@@ -62,7 +62,7 @@ type SheetContentProps = SheetBase.Popup.Props & {
 const SheetContent = ({
   className,
   children,
-  side = "right",
+  side = 'right',
   ...props
 }: SheetContentProps) => {
   return (
@@ -71,11 +71,11 @@ const SheetContent = ({
         <SheetBackdrop />
         <SheetBase.Popup
           className={cn(
-            "fixed z-50",
-            "max-h-[calc(100%-2rem)] max-w-[calc(100%-2rem)]",
-            "bg-background flex w-full flex-col overflow-y-auto rounded-[1rem]",
-            "data-ending-style:opacity-0 data-starting-style:opacity-0",
-            "duration-150",
+            'fixed z-50',
+            'max-h-[calc(100%-2rem)] max-w-[calc(100%-2rem)]',
+            'flex w-full flex-col overflow-y-auto rounded-[1rem] bg-background',
+            'data-ending-style:opacity-0 data-starting-style:opacity-0',
+            'duration-150',
             styleBySide[side],
             className
           )}
@@ -85,10 +85,10 @@ const SheetContent = ({
           <SheetBase.Close
             render={
               <IconButton
-                className="absolute right-4 top-4"
-                variant="ghost"
                 aria-label="닫기"
+                className="absolute top-4 right-4"
                 size="xsmall"
+                variant="ghost"
               >
                 <XIcon className="size-4" />
               </IconButton>
@@ -100,22 +100,22 @@ const SheetContent = ({
   );
 };
 
-type SheetHeaderProps = React.ComponentPropsWithRef<"div">;
+type SheetHeaderProps = React.ComponentPropsWithRef<'div'>;
 
 const SheetHeader = ({ className, children, ...props }: SheetHeaderProps) => {
   return (
-    <div className={cn("flex flex-col gap-1.5 p-5", className)} {...props}>
+    <div className={cn('flex flex-col gap-1.5 p-5', className)} {...props}>
       {children}
     </div>
   );
 };
 
-type SheetBodyProps = React.ComponentPropsWithRef<"div">;
+type SheetBodyProps = React.ComponentPropsWithRef<'div'>;
 
 const SheetBody = ({ className, children, ...props }: SheetBodyProps) => {
   return (
     <div
-      className={cn("flex flex-1 flex-col overflow-y-auto px-5", className)}
+      className={cn('flex flex-1 flex-col overflow-y-auto px-5', className)}
       {...props}
     >
       {children}
@@ -123,11 +123,11 @@ const SheetBody = ({ className, children, ...props }: SheetBodyProps) => {
   );
 };
 
-type SheetFooterProps = React.ComponentPropsWithRef<"div">;
+type SheetFooterProps = React.ComponentPropsWithRef<'div'>;
 
 const SheetFooter = ({ className, children, ...props }: SheetFooterProps) => {
   return (
-    <div className={cn("flex justify-end gap-2 p-5", className)} {...props}>
+    <div className={cn('flex justify-end gap-2 p-5', className)} {...props}>
       {children}
     </div>
   );
@@ -138,7 +138,7 @@ type SheetTitleProps = React.ComponentPropsWithRef<typeof SheetBase.Title>;
 const SheetTitle = ({ className, children, ...props }: SheetTitleProps) => {
   return (
     <SheetBase.Title
-      className={cn("text-lg font-semibold tracking-tight", className)}
+      className={cn('font-semibold text-lg tracking-tight', className)}
       {...props}
     >
       {children}
@@ -155,7 +155,7 @@ const SheetDescription = ({
 }: SheetDescriptionProps) => {
   return (
     <SheetBase.Description
-      className={cn("text-sub text-sm", className)}
+      className={cn('text-sm text-sub', className)}
       {...props}
     >
       {children}
@@ -170,11 +170,11 @@ const SheetTrigger = ({ children, ...props }: SheetTriggerProps) => {
 };
 
 type SheetContentContextValue = {
-  side: SheetContentProps["side"];
+  side: SheetContentProps['side'];
 };
 
 const [SheetContentContext] =
-  createContextFactory<SheetContentContextValue>("SheetContent");
+  createContextFactory<SheetContentContextValue>('SheetContent');
 
 Sheet.Trigger = SheetTrigger;
 Sheet.Close = SheetBase.Close;

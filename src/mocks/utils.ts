@@ -1,8 +1,8 @@
-import { http, HttpResponse, JsonBodyType } from "msw";
+import { HttpResponse, http, type JsonBodyType } from 'msw';
 
 type NonEmptyArray<T> = [T, ...T[]];
 
-type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export type MockHandler<TPath extends string = string> = {
   method: HttpMethod;
@@ -59,7 +59,7 @@ export const registerHandler = (handlers: RegisteredMockHandler[]) => {
 // }[number];
 
 const resolveBaseUrl = (baseUrl: string, path: string) => {
-  return path === "/" ? baseUrl : `${baseUrl}${path}`;
+  return path === '/' ? baseUrl : `${baseUrl}${path}`;
 };
 
 export const createMockHandlerGroup = <T extends NonEmptyArray<MockHandler>>(
@@ -99,8 +99,8 @@ export const createMockHandlerGroup = <T extends NonEmptyArray<MockHandler>>(
 };
 
 const methodMap: Record<HttpMethod, keyof typeof http> = {
-  GET: "get",
-  POST: "post",
-  PUT: "put",
-  DELETE: "delete",
+  GET: 'get',
+  POST: 'post',
+  PUT: 'put',
+  DELETE: 'delete',
 };

@@ -1,6 +1,6 @@
-import { api } from "@/lib/api";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { z } from "zod/v4";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { z } from 'zod/v4';
+import { api } from '@/lib/api';
 
 const User = z.object({
   id: z.string(),
@@ -11,7 +11,7 @@ const GetUserListResponse = z.array(User);
 
 export const userApi = {
   getUserList: async () => {
-    const response = await api.get("users").json();
+    const response = await api.get('users').json();
     return GetUserListResponse.parse(response);
   },
   getUserById: async (id: string) => {
@@ -22,14 +22,14 @@ export const userApi = {
 
 export const useUserList = () => {
   return useSuspenseQuery({
-    queryKey: ["users"],
+    queryKey: ['users'],
     queryFn: userApi.getUserList,
   });
 };
 
 export const useUserDetail = (id: string) => {
   return useSuspenseQuery({
-    queryKey: ["user", id],
+    queryKey: ['user', id],
     queryFn: () => userApi.getUserById(id),
   });
 };

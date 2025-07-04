@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { MSWDevtool } from "@/mocks/components/devtool";
-import { usePostDetail, usePostList, useRecentPostList } from "@/services/post";
-import { ErrorBoundary, Suspense } from "@suspensive/react";
+import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { MSWDevtool } from '@/mocks/components/devtool';
+import { usePostList } from '@/services/post';
 
 export default function Home() {
   return (
@@ -19,8 +19,6 @@ export default function Home() {
 
 const PostList = () => {
   const { data: posts } = usePostList();
-  const { data: recentPosts } = useRecentPostList();
-  const { data: post } = usePostDetail("1");
 
   return (
     <ul>

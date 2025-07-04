@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { SetupWorker, setupWorker } from "msw/browser";
-import { mockHandlers } from "../handlers";
-import { createContextFactory } from "@/lib/context";
-import { matchHandler, MockHandler, registerHandler } from "../utils";
-import { z } from "zod/v4";
-import { Suspense } from "@suspensive/react";
+import { Suspense } from '@suspensive/react';
+import { type SetupWorker, setupWorker } from 'msw/browser';
+import { useCallback, useEffect, useState } from 'react';
+import { z } from 'zod/v4';
+import { createContextFactory } from '@/lib/context';
+import { mockHandlers } from '../handlers';
+import { type MockHandler, matchHandler, registerHandler } from '../utils';
 
-const STORAGE_KEY = "enabledHandlerIds";
+const STORAGE_KEY = 'enabledHandlerIds';
 
 type EnabledHandler = z.infer<typeof EnabledHandler>;
 const EnabledHandler = z.object({
@@ -31,7 +31,7 @@ export const DevOnlyMSWProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  if (process.env.NODE_ENV !== "development") {
+  if (process.env.NODE_ENV !== 'development') {
     return <>{children}</>;
   }
 
@@ -52,46 +52,50 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       return HandlerConfig.parse(JSON.parse(storedValue));
-    } catch (error) {
+    } catch {
       return defaultHandlerConfig;
     }
   };
 
   const initialHandlerConfig = getInitialHandlerConfig();
 
-  const [worker, setWorker] = useState<SetupWorker | null>(null);
+  const [currentWorker, setCurrentWorker] = useState<SetupWorker | null>(null);
 
   const [handlerConfig, setHandlerConfig] =
     useState<HandlerConfig>(initialHandlerConfig);
 
-  const getEnabledHttpHandlers = (enabledHandlers: EnabledHandler[]) => {
-    const allHandlers = mockHandlers
-      .map((handlerGroup) => handlerGroup.handlers)
-      .flat();
+  const getEnabledHttpHandlers = useCallback(
+    (enabledHandlers: EnabledHandler[]) => {
+      const allHandlers = mockHandlers.flatMap(
+        (handlerGroup) => handlerGroup.handlers
+      );
 
-    const filteredHandlers = allHandlers
-      .filter((handler) => {
-        return enabledHandlers.some((enabledHandler) =>
-          matchHandler(enabledHandler, handler)
-        );
-      })
-      .map((handler) => {
-        const usedPresetLabel = enabledHandlers.find((enabledHandler) =>
-          matchHandler(enabledHandler, handler)
-        )?.preset;
+      const filteredHandlers = allHandlers
+        .filter((handler) => {
+          return enabledHandlers.some((enabledHandler) =>
+            matchHandler(enabledHandler, handler)
+          );
+        })
+        .map((handler) => {
+          const usedPresetLabel = enabledHandlers.find((enabledHandler) =>
+            matchHandler(enabledHandler, handler)
+          )?.preset;
 
-        const preset =
-          handler.presets.find((preset) => preset.label === usedPresetLabel) ??
-          handler.presets[0];
+          const enabledPreset =
+            handler.presets.find(
+              (preset) => preset.label === usedPresetLabel
+            ) ?? handler.presets[0];
 
-        return {
-          ...handler,
-          preset,
-        };
-      });
+          return {
+            ...handler,
+            preset: enabledPreset,
+          };
+        });
 
-    return registerHandler(filteredHandlers);
-  };
+      return registerHandler(filteredHandlers);
+    },
+    []
+  );
 
   useEffect(() => {
     const startWorker = async () => {
@@ -102,18 +106,18 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
       const worker = setupWorker(...enabledHttpHandlers);
 
       await worker.start({
-        onUnhandledRequest: "bypass",
+        onUnhandledRequest: 'bypass',
       });
 
-      setWorker(worker);
+      setCurrentWorker(worker);
     };
 
     startWorker();
-  }, []);
+  }, [getEnabledHttpHandlers, handlerConfig.enabledHandlers]);
 
   const updateEnabledHandlers = (enabledHandlers: EnabledHandler[]) => {
-    if (worker === null) {
-      throw new Error("Worker가 초기화되기 전에 실행할 수 없습니다.");
+    if (currentWorker === null) {
+      throw new Error('Worker가 초기화되기 전에 실행할 수 없습니다.');
     }
 
     const newConfig: HandlerConfig = {
@@ -127,8 +131,8 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
 
     setHandlerConfig(newConfig);
 
-    worker.resetHandlers();
-    worker.use(...enabledWorkerHandlers);
+    currentWorker.resetHandlers();
+    currentWorker.use(...enabledWorkerHandlers);
   };
 
   const toggleHandlerEnabled = (handler: MockHandler) => {
@@ -142,8 +146,7 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
       );
     } else {
       const matchedHandler = mockHandlers
-        .map((handlerGroup) => handlerGroup.handlers)
-        .flat()
+        .flatMap((handlerGroup) => handlerGroup.handlers)
         .find((h) => {
           return matchHandler(handler, h);
         });
@@ -172,7 +175,9 @@ export const MSWProvider = ({ children }: { children: React.ReactNode }) => {
     updateEnabledHandlers(updatedHandlers);
   };
 
-  if (worker === null) return null;
+  if (currentWorker === null) {
+    return null;
+  }
 
   return (
     <MSWProviderContext
@@ -194,6 +199,6 @@ type MSWProviderContextValue = {
 };
 
 const [MSWProviderContext, useMSWProviderContext] =
-  createContextFactory<MSWProviderContextValue>("MSWProvider");
+  createContextFactory<MSWProviderContextValue>('MSWProvider');
 
 export { useMSWProviderContext };

@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
-import { DevOnlyMSWProvider } from "@/mocks/components/msw-provider";
-import { Suspense } from "@suspensive/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useState } from 'react';
+import { DevOnlyMSWProvider } from '@/mocks/components/msw-provider';
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   const [queryClient] = useState(

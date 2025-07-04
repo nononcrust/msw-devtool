@@ -1,30 +1,30 @@
-import { useRender } from "@base-ui-components/react/use-render";
-import { tv, VariantProps } from "tailwind-variants";
-import { cn } from "@/lib/utils";
-import { buttonVariant } from "@/components/button";
+import { useRender } from '@base-ui-components/react/use-render';
+import { tv, type VariantProps } from 'tailwind-variants';
+import { buttonVariant } from '@/components/button';
+import { cn } from '@/lib/utils';
 
-export type IconButtonProps = useRender.ComponentProps<"button"> &
+export type IconButtonProps = useRender.ComponentProps<'button'> &
   VariantProps<typeof iconButtonVariants> & {
-    ["aria-label"]: string;
+    'aria-label': string;
   };
 
 const iconButtonVariants = tv({
   base: cn(
-    "inline-flex justify-center items-center border border-transparent whitespace-nowrap transition-colors",
-    "disabled:opacity-50 disabled:pointer-events-none"
+    'inline-flex items-center justify-center whitespace-nowrap border border-transparent transition-colors',
+    'disabled:pointer-events-none disabled:opacity-50'
   ),
   variants: {
     variant: buttonVariant,
     size: {
-      xsmall: "size-7 text-xs rounded-[0.5rem]",
-      small: "size-8 text-sm rounded-[0.5rem]",
-      medium: "size-9 text-base rounded-md",
-      large: "size-10 text-lg rounded-md",
+      xsmall: 'size-7 rounded-[0.5rem] text-xs',
+      small: 'size-8 rounded-[0.5rem] text-sm',
+      medium: 'size-9 rounded-md text-base',
+      large: 'size-10 rounded-md text-lg',
     },
   },
   defaultVariants: {
-    variant: "primary",
-    size: "medium",
+    variant: 'primary',
+    size: 'medium',
   },
 });
 
@@ -34,18 +34,17 @@ const IconButton = ({
   size,
   disabled,
   render,
-  "aria-label": ariaLabel,
+  'aria-label': ariaLabel,
   ...props
 }: IconButtonProps) => {
-  const defaultRender = <button />;
+  const defaultRender = <button type="button" />;
 
   return useRender({
     render: render ?? defaultRender,
     props: {
       className: cn(iconButtonVariants({ size, variant, className })),
       disabled,
-      type: render ? undefined : "button",
-      "aria-label": ariaLabel,
+      'aria-label': ariaLabel,
       ...props,
     },
   });

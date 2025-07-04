@@ -1,6 +1,6 @@
-import { api } from "@/lib/api";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import z from "zod/v4";
+import { useSuspenseQuery } from '@tanstack/react-query';
+import z from 'zod/v4';
+import { api } from '@/lib/api';
 
 export type Post = z.infer<typeof Post>;
 const Post = z.object({
@@ -13,7 +13,7 @@ const GetPostListResponse = z.array(Post);
 
 export const postApi = {
   getPosts: async () => {
-    const response = await api.get("posts").json();
+    const response = await api.get('posts').json();
     return GetPostListResponse.parse(response);
   },
   getPostById: async (id: string) => {
@@ -21,28 +21,28 @@ export const postApi = {
     return Post.parse(response);
   },
   getRecentPosts: async () => {
-    const response = await api.get("posts/recent").json();
+    const response = await api.get('posts/recent').json();
     return GetPostListResponse.parse(response);
   },
 };
 
 export const usePostList = () => {
   return useSuspenseQuery({
-    queryKey: ["posts"],
+    queryKey: ['posts'],
     queryFn: postApi.getPosts,
   });
 };
 
 export const usePostDetail = (id: string) => {
   return useSuspenseQuery({
-    queryKey: ["post", id],
+    queryKey: ['post', id],
     queryFn: () => postApi.getPostById(id),
   });
 };
 
 export const useRecentPostList = () => {
   return useSuspenseQuery({
-    queryKey: ["recentPosts"],
+    queryKey: ['recentPosts'],
     queryFn: postApi.getRecentPosts,
   });
 };
