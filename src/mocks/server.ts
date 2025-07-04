@@ -78,9 +78,3 @@ type UseMockParams<T extends readonly MockHandler[]> = {
       : never
     : never;
 }[number];
-
-// server.applyMock({
-//   method: 'GET',
-//   path: '/posts',
-//   preset: '기본 게시글 목록 조회',
-// });

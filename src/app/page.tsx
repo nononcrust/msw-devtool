@@ -1,8 +1,8 @@
 'use client';
 
 import { ErrorBoundary, Suspense } from '@suspensive/react';
+import { PostList } from '@/features/post/components/post-list';
 import { MSWDevtool } from '@/mocks/components/devtool';
-import { usePostList } from '@/services/post';
 
 export default function Home() {
   return (
@@ -16,15 +16,3 @@ export default function Home() {
     </main>
   );
 }
-
-const PostList = () => {
-  const { data: posts } = usePostList();
-
-  return (
-    <ul>
-      {posts.map((post) => (
-        <li key={post.id}>{post.title}</li>
-      ))}
-    </ul>
-  );
-};

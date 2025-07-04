@@ -1,5 +1,3 @@
-import ky from 'ky';
+import axios from 'axios';
 
-export const api = ky.create({
-  prefixUrl: '/',
-});
+export const api = axios.create();

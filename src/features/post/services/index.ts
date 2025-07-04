@@ -13,16 +13,16 @@ const GetPostListResponse = z.array(Post);
 
 export const postApi = {
   getPosts: async () => {
-    const response = await api.get('posts').json();
-    return GetPostListResponse.parse(response);
+    const response = await api.get('posts');
+    return GetPostListResponse.parse(response.data);
   },
   getPostById: async (id: string) => {
-    const response = await api.get(`posts/${id}`).json();
-    return Post.parse(response);
+    const response = await api.get(`posts/${id}`);
+    return Post.parse(response.data);
   },
   getRecentPosts: async () => {
-    const response = await api.get('posts/recent').json();
-    return GetPostListResponse.parse(response);
+    const response = await api.get('posts/recent');
+    return GetPostListResponse.parse(response.data);
   },
 };
 

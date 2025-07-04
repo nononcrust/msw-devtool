@@ -11,12 +11,12 @@ const GetUserListResponse = z.array(User);
 
 export const userApi = {
   getUserList: async () => {
-    const response = await api.get('users').json();
-    return GetUserListResponse.parse(response);
+    const response = await api.get('users');
+    return GetUserListResponse.parse(response.data);
   },
   getUserById: async (id: string) => {
-    const response = await api.get(`users/${id}`).json();
-    return User.parse(response);
+    const response = await api.get(`users/${id}`);
+    return User.parse(response.data);
   },
 };
 
