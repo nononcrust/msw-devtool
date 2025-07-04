@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --color-background: var(--color-white);
+  --color-background-100: var(--color-neutral-100);
+  --color-background-200: var(--color-neutral-200);
+  --color-background-hover: var(--color-neutral-100);
+  --color-main: var(--color-neutral-800);
+  --color-sub: var(--color-neutral-500);
+  --color-subtle: var(--color-neutral-400);
+  --color-border: var(--color-neutral-200);
+  --color-placeholder: var(--color-neutral-400);
+  --color-secondary: var(--color-neutral-100);
+  --color-secondary-dark: var(--color-neutral-200);
+  --color-neutral: var(--color-neutral-700);
+  --color-neutral-dark: var(--color-neutral-800);
+  --color-ring: var(--color-blue-300);
+  --color-ring-error: var(--color-red-300);
+  --color-error: var(--color-red-500);
+  --color-error-dark: var(--color-red-600);
+  --color-error-light: var(--color-red-400);
+  --color-error-lighter: var(--color-red-100);
+}
+
+.dark {
+  --color-background: var(--color-neutral-800);
+  --color-background-100: var(--color-neutral-700);
+  --color-background-200: var(--color-neutral-600);
+  --color-background-hover: var(--color-neutral-700);
+  --color-main: var(--color-neutral-100);
+  --color-sub: var(--color-neutral-400);
+  --color-subtle: var(--color-neutral-400);
+  --color-border: var(--color-neutral-600);
+  --color-placeholder: var(--color-neutral-400);
+  --color-secondary: var(--color-neutral-700);
+  --color-secondary-dark: var(--color-neutral-600);
+  --color-neutral: var(--color-neutral-100);
+  --color-neutral-dark: var(--color-neutral-200);
+  --color-ring: var(--color-blue-400);
+  --color-ring-error: var(--color-red-800);
+  --color-error: var(--color-red-500);
+  --color-error-dark: var(--color-red-600);
+  --color-error-light: var(--color-red-400);
+  --color-error-lighter: var(--color-red-900);
+}
+
+@theme inline {
+  /* Color Palette */
+  --color-primary-50: var(--color-blue-50);
+  --color-primary-100: var(--color-blue-100);
+  --color-primary-200: var(--color-blue-200);
+  --color-primary-300: var(--color-blue-300);
+  --color-primary-400: var(--color-blue-400);
+  --color-primary-500: var(--color-blue-500);
+  --color-primary-600: var(--color-blue-600);
+  --color-primary-700: var(--color-blue-700);
+  --color-primary-800: var(--color-blue-800);
+  --color-primary-900: var(--color-blue-900);
+
+  /* Themed Colors */
+  --color-background: var(--color-background);
+  --color-background-100: var(--color-background-100);
+  --color-background-200: var(--color-background-200);
+  --color-background-hover: var(--color-background-hover);
+  --color-main: var(--color-main);
+  --color-sub: var(--color-sub);
+  --color-subtle: var(--color-subtle);
+  --color-border: var(--color-border);
+  --color-placeholder: var(--color-placeholder);
+  --color-error: var(--color-error);
+  --color-error-dark: var(--color-error-dark);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-dark: var(--color-secondary-dark);
+  --color-neutral: var(--color-neutral);
+  --color-neutral-dark: var(--color-neutral-dark);
+  --color-ring: var(--color-ring);
+  --color-ring-error: var(--color-ring-error);
+  --color-error: var(--color-error);
+  --color-error-dark: var(--color-error-dark);
+  --color-error-light: var(--color-error-light);
+  --color-error-lighter: var(--color-error-lighter);
+
+  /* Fixed Colors */
+  --color-primary: var(--color-primary-500);
+  --color-primary-dark: var(--color-primary-600);
+  --color-primary-darker: var(--color-primary-900);
+  --color-primary-darker-hover: var(--color-primary-800);
+  --color-primary-light: var(--color-primary-400);
+  --color-primary-lighter: var(--color-primary-50);
+  --color-primary-lighter-hover: var(--color-primary-100);
+  --color-success: var(--color-green-500);
+  --color-warning: var(--color-orange-400);
+
+  /* Shadows */
+  --shadow-fab: 0px 2px 6px 0px rgba(0, 0, 0, 0.16);
+
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 0.875rem;
+
+  /* Animation Timings */
+  --ease-out-quad: cubic-bezier(0.5, 1, 0.89, 1);
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@utility focus-ring {
+  @apply ring-ring ring-offset-background outline-hidden ring-2 ring-offset-2;
+}
+
+@utility focus-input-ring {
+  @apply border-primary ring-primary-lighter dark:border-primary dark:ring-primary-darker outline-hidden border ring-[3px] ring-offset-0;
+}
+
+@utility focus-input-ring-error {
+  @apply border-error ring-error-lighter dark:border-error dark:ring-error-lighter outline-hidden border ring-[3px] ring-offset-0;
+}
+
+@utility disable-focus-ring {
+  @apply ring-0;
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-background-200) var(--color-background);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  body {
+    @apply bg-background text-main;
+  }
+
+  button,
+  a {
+    @apply focus-visible:focus-ring;
+  }
+}
